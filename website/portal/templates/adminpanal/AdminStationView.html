@@ -1,0 +1,366 @@
+{% extends "base.html" %}
+{% load static %}
+{% block AdminStationView %}
+<main>
+    <div class="container-fluid px-4">
+        <div class="row mt-4 mb-4">
+            <div class="col-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading text-left" style="background-color: #212529;padding: 10px 15px;border-radius: 5px;"
+                            role="tab" id="station_filters">
+                        <h4 class="panel-title m-0">
+                            <div class="row">
+                                <div class="col-9">
+                                    <a role="button" data-toggle="collapse"
+                                        style="text-decoration: none;color: #fff;" href="#collapse_station_filters"
+                                        aria-expanded="false" aria-controls="collapse_station_filters">
+                                        <i class="fa-solid fa-filter me-1"></i>
+                                        Station Filters
+                                    </a>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <button class="btn btn-success btn-sm" id="sbmtBTN" disabled>Submit</button>
+                                    <button class="btn btn-danger btn-sm" id="rstBTN">Reset ALL</button>
+                                </div>
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="collapse_station_filters" class="panel-collapse collapse in show" role="tabpanel"
+                        aria-labelledby="station_filters">
+                        <div class="panel-body">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-3 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-dark text-white">
+                                                    <div class="row">
+                                                        <div class="col-10 d-flex justify-content-start align-items-center">
+                                                            <i class="fa-solid fa-filter me-1"></i>
+                                                            Station Number
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                                            <button class="btn btn-danger btn-sm" id="StNumBTN"
+                                                                style="padding: 0px 5px;"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <select class="selectpicker form-control" id="number" data-live-search="true">
+                                                        <option value="" selected disabled>Choose Number...</option>
+                                                        {% for st_num in station_numbers %}
+                                                        <option value="{{st_num.number}}">{{st_num.number}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-dark text-white">
+                                                    <div class="row">
+                                                        <div class="col-10 d-flex justify-content-start align-items-center">
+                                                            <i class="fa-solid fa-filter me-1"></i>
+                                                            Station Name
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                                            <button class="btn btn-danger btn-sm" id="StNameBTN"
+                                                                style="padding: 0px 5px;"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <select class="selectpicker form-control" id="name" data-live-search="true">
+                                                        <option value="" selected disabled>Choose Name...</option>
+                                                        {% for st_name in station_names %}
+                                                        <option value="{{st_name.name}}">{{st_name.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-dark text-white">
+                                                    <div class="row">
+                                                        <div class="col-10 d-flex justify-content-start align-items-center">
+                                                            <i class="fa-solid fa-filter me-1"></i>
+                                                            Fusion IP
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                                            <button class="btn btn-danger btn-sm" id="fusionIPBTN"
+                                                            style="padding: 0px 5px;"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <select class="selectpicker form-control" id="fusion_ip" data-live-search="true">
+                                                        <option value="" selected disabled>Choose Fusion IP...</option>
+                                                        {% for fip in fusion_ips %}
+                                                        <option value="{{fip.fusion_ip}}">{{fip.fusion_ip}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-dark text-white">
+                                                    <div class="row">
+                                                        <div class="col-10 d-flex justify-content-start align-items-center">
+                                                            <i class="fa-solid fa-filter me-1"></i>
+                                                            Fusion Port
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                                            <button class="btn btn-danger btn-sm" id="FusionPortBTN"
+                                                                style="padding: 0px 5px;"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <select class="selectpicker form-control" id="fusion_port" data-live-search="true">
+                                                        <option value="" selected disabled>Choose Fusion Port...</option>
+                                                        {% for fport in fusion_ports %}
+                                                        <option value="{{fport.fusion_port}}">{{fport.fusion_port}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-dark text-white">
+                                                    <div class="row">
+                                                        <div class="col-10 d-flex justify-content-start align-items-center">
+                                                            <i class="fa-solid fa-filter me-1"></i>
+                                                            Longitude
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                                            <button class="btn btn-danger btn-sm" id="longBTN"
+                                                                style="padding: 0px 5px;"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <select class="selectpicker form-control" id="long" data-live-search="true">
+                                                        <option value="" selected disabled>Choose Longitude...</option>
+                                                        {% for lon in longitudes %}
+                                                        <option value="{{lon.long}}">{{lon.long}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-dark text-white">
+                                                    <div class="row">
+                                                        <div class="col-10 d-flex justify-content-start align-items-center">
+                                                            <i class="fa-solid fa-filter me-1"></i>
+                                                            Latitude
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                                            <button class="btn btn-danger btn-sm" id="latBTN"
+                                                                style="padding: 0px 5px;"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <select class="selectpicker form-control" id="lat" data-live-search="true">
+                                                        <option value="" selected disabled>Choose Latitude...</option>
+                                                        {% for lat in latitudes %}
+                                                        <option value="{{lat.lat}}">{{lat.lat}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-dark text-white">
+                                                    <div class="row">
+                                                        <div class="col-10 d-flex justify-content-start align-items-center">
+                                                            <i class="fa-solid fa-filter me-1"></i>
+                                                            Central Area
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                                            <button class="btn btn-danger btn-sm" id="cenAreaBTN"
+                                                                style="padding: 0px 5px;"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <select class="selectpicker form-control" id="central_area" data-live-search="true">
+                                                        <option value="" selected disabled>Choose Central Area...</option>
+                                                        {% for cenArea in central_areas %}
+                                                        <option value="{{cenArea.central_area__name}}">{{cenArea.central_area__name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-dark text-white">
+                                                    <div class="row">
+                                                        <div class="col-10 d-flex justify-content-start align-items-center">
+                                                            <i class="fa-solid fa-filter me-1"></i>
+                                                            Governorate
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                                            <button class="btn btn-danger btn-sm" id="govBTN"
+                                                                style="padding: 0px 5px;"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <select class="selectpicker form-control" id="gov" data-live-search="true">
+                                                        <option value="" selected disabled>Choose Governorate...</option>
+                                                        {% for gov in governorates %}
+                                                        <option value="{{gov.governorate__name}}">{{gov.governorate__name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-dark text-white">
+                                                    <div class="row">
+                                                        <div class="col-10 d-flex justify-content-start align-items-center">
+                                                            <i class="fa-solid fa-filter me-1"></i>
+                                                            Last Connection
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                                            <button class="btn btn-danger btn-sm" id="lastConBTN"
+                                                                style="padding: 0px 5px;"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-5">
+                                                            <input class="form-control" type="datetime-local" id="lc_from">
+                                                        </div>
+                                                        <div class="col-2" style="display: flex;justify-content: center;align-items: center;">
+                                                            <label>To</label>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input class="form-control" type="datetime-local" id="lc_to">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-dark text-white">
+                                                    <div class="row">
+                                                        <div class="col-10 d-flex justify-content-start align-items-center">
+                                                            <i class="fa-solid fa-filter me-1"></i>
+                                                            Timestamp
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                                            <button class="btn btn-danger btn-sm" id="timestampBTN"
+                                                                style="padding: 0px 5px;"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-5">
+                                                            <input class="form-control" type="datetime-local" id="ts_from">
+                                                        </div>
+                                                        <div class="col-2" style="display: flex;justify-content: center;align-items: center;">
+                                                            <label>To</label>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input class="form-control" type="datetime-local" id="ts_to">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row d-none" id="miniloader">
+            <div class="col-12 text-center">
+                <span class="loader">L &nbsp; ading</span>
+            </div>
+        </div>
+        <div class="card mb-4 mt-3 d-none" id="card-table">
+            <div class="card-header bg-dark text-white">
+                <i class="fas fa-table me-1"></i>
+                Station Table | View
+            </div>
+            <div class="card-body table-striped">
+                <div id="toolbar" class="select" style="display: flex;">
+                    <input type="text" class="form-control" style="margin-right:5px;" id="exportFileName"
+                        placeholder="Export File Name">
+                    <select class="form-control" style="margin-right:5px;">
+                        <option value="">Export Basic</option>
+                        <option value="all">Export All</option>
+                        <option value="selected">Export Selected</option>
+                    </select>
+                    <button class="btn" style="color: #fff;background-color: #6c757d" id="print_selected">Print
+                        Selected</button>
+                </div>
+                <table id="stationTbl" data-toggle="table" data-pagination="true" data-search="true"
+                    data-show-columns="true" data-show-toggle="true" data-show-columns-search="true"
+                    data-show-pagination-switch="true" data-show-fullscreen="true" data-searchable="true"
+                    data-show-print="true" data-print-as-filtered-and-sorted-on-ui="true"
+                    data-mobile-responsive="true" data-key-events="true" data-show-search-clear-button="true"
+                    data-filter-control="true" data-show-export="true" data-click-to-select="true"
+                    data-toolbar="#toolbar" data-unique-id="RFQ_ID">
+                    <thead>
+                        <tr>
+                            <th data-field="state" data-checkbox="true" data-visible="false"></th>
+                            <th data-field="number" data-sortable="true" data-filter-control="input">Station Number</th>
+                            <th data-field="name" data-sortable="true" data-filter-control="input">Station Name</th>
+                            <th data-field="long" data-sortable="true" data-filter-control="input">Longitude</th>
+                            <th data-field="lat" data-sortable="true" data-filter-control="input">Latitude</th>
+                            <th data-field="central_area" data-sortable="true" data-filter-control="input">Central Area</th>
+                            <th data-field="governorate" data-sortable="true" data-filter-control="input">Governorate</th>
+                            <th data-field="fusion_ip" data-sortable="true" data-filter-control="input">Fusion IP</th>
+                            <th data-field="fusion_port" data-sortable="true" data-filter-control="input">Fusion Port</th>
+                            <th data-field="last_connection" data-sortable="true" data-filter-control="input">Last Connection</th>
+                            <th data-field="timestamp" data-sortable="true" data-filter-control="input">Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- {% for si in s_invoice %} -->
+                        <!-- <tr> -->
+                            <!-- <td></td>
+                            <td>{{si.invoice.id}}</td>
+                            <td>{{si.invoice.vendor}}</td>
+                            <td>{{si.invoice.date}}</td>
+                            <td>{{si.invoice.po}}</td>
+                            <td>{{si.invoice.bill_to}}</td>
+                            <td>{{si.user}}</td>
+                            <td>{{si.timestamp}}</td> -->
+                            <!-- <td class="d-flex justify-content-center align-items-center">
+                                <button class="btn btn-secondary m-2 text-white" type="button" onclick="ViewInvoice('{{tsh.id}}', 'view')"><i class="fa-solid fa-eye"></i></button>
+                                <button class="btn btn-success m-2" type="button" onclick="ApprovedOrNotTimeSheet('{{tsh.id}}', 'approve')"><i class="fa-solid fa-check"></i></button>
+                                <button class="btn btn-danger m-2" type="button" onclick="ApprovedOrNotTimeSheet('{{tsh.id}}', 'reject')"><i class="fa-solid fa-xmark"></i></button>
+                            </td> -->
+                            <!-- <td> -->
+                                <!-- <button class="btn btn-secondary m-auto" type="button" data-toggle="modal" data-target="#view_action_modal_{{tsh.id}}"><i class="fa-solid fa-eye"></i> View</button> -->
+                                <!-- <button type="button" class="btn btn-success m-auto" data-toggle="modal" data-target="#approve_action_modal_{{tsh.id}}"><i class="fa-solid fa-check"></i></button> -->
+                                <!-- <button type="button" class="btn btn-danger m-auto" data-toggle="modal" data-target="#reject_action_modal_{{tsh.id}}"><i class="fa-solid fa-xmark"></i></button> -->
+                            <!-- </td> -->
+                        <!-- </tr> -->
+                        <!-- {%endfor%} -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" src="{% static 'js/AdminStationView.js' %}"></script>
+{% endblock %}

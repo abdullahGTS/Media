@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load static %}
+{% block AdminPumpAdd %}
+<main>
+    <div class="container-fluid px-4">
+        <div class="row mt-4">
+            <div class="col-xl-12">
+                <div class="card mb-4">
+                    <div class="card-header bg-dark text-white">
+                        <div class="col-xl-12">
+                            <i class="fa-solid fa-filter me-1"></i>
+                            Pump | Add
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-4 d-none" id="success_msg">
+                            <div class="col-12 d-flex justify-content-center align-items-center">
+                                <h3 class="m-0 text-success">Pumps Added Successfully.</h3>
+                            </div>
+                        </div>
+                        <div class="row mb-4 d-none" id="error_msg">
+                            <div class="col-12 d-flex justify-content-center align-items-center flex-column">
+                                <h3 class="m-0 text-danger">Pumps Already Exists.</h3>
+                                <h6 class="m-0 text-danger" id="pump_exist_list"></h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-8 d-flex justify-content-center align-items-center flex-column">
+                                <div class="row w-100">
+                                    <div class="col-4">
+                                        <h5 class="m-0">Station</h5>
+                                    </div>
+                                    <div class="col-8">
+                                        <select class="selectpicker form-control" name="station" id="station" data-live-search="true" required>
+                                            <option value="" selected disabled>Choose Station...</option>
+                                            {% for station in stations %}
+                                            <option value="{{station.id}}">{{station.number}} - {{station.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mt-4 w-100">
+                                    <!-- <div class="col-4">
+                                        <h5 class="m-0">Pump Number</h5>
+                                    </div> -->
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-header bg-dark text-white" style="cursor: pointer;" onclick="$('#pump_form').toggleClass('d-none');">
+                                                <h6 class="m-0"><i class="fa-solid fa-filter me-1"></i> Pump | Numbers | Add</h6>
+                                            </div>
+                                            <div class="card-body" id="pump_form">
+                                                <div class="row">
+                                                    <div class="col-2 d-flex justify-content-center align-items-center">
+                                                        <h6 class="m-0">Pump</h6>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <input class="form-control" type="number" id="pump_number" min="0" placeholder="Enter Pump Number" disabled>
+                                                    </div>
+                                                    <div class="col-4 d-flex justify-content-center align-items-center">
+                                                        <button class="btn btn-dark" type="button" id="add_pump" onclick="addPump()" disabled>
+                                                            <i class="fa-solid fa-pencil"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-4">
+                                                    <div class="col-12 make-my-scrollable" id="added_pumps" style="max-height: 150px;min-height: 150px;border-top: 1px solid #343a40;">
+                                                        <div class="row" style="height: 145px;">
+                                                            <div class="col-12 d-flex justify-content-center align-items-center">
+                                                                <h3 class="m-0">No Pumps Added</h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="card-body bg-dark make-my-scrollable" id="pumpViewer"
+                                    style="max-height: 300px;min-height: 300px;border-radius: 10px;">
+                                    <!-- preview of xml file -->
+                                    <div class="row" style="height: 260px;">
+                                        <div class="col-12 d-flex justify-content-center align-items-center">
+                                            <h3 class="text-white m-0" id="empty_msg">Station Pumps Preview</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-12 text-right">
+                                        <button type="button" class="btn btn-dark px-4 me-4" onclick="ResetPumps()">Reset</button>
+                                        <button type="submit" class="btn btn-success px-4" id="submit_btn" onclick="SubmitPumps()" disabled>Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" src="{% static 'js/AdminPumpAdd.js' %}"></script>
+{% endblock %}

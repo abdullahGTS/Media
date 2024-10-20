@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+{% block AdminFusionAdd %}
+<main>
+    <div class="container-fluid px-4">
+        <div class="row mt-4 mb-4">
+            <div class="col-xl-12">
+                <div class="card mb-4">
+                    <div class="card-header bg-dark text-white">
+                        <div class="col-xl-12">
+                            <i class="fa-solid fa-file-import me-1"></i>
+                            Fusion | Form | Add
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-4 d-none" id="success_msg">
+                            <div class="col-12 d-flex justify-content-center align-items-center">
+                                <h1 class="m-0 text-success">Fudion Added Successfully.</h1>
+                            </div>
+                        </div>
+                        <div class="row mb-4 d-none" id="error_msg">
+                            <div class="col-12 d-flex justify-content-center align-items-center">
+                                <h1 class="m-0 text-danger">Fudion Data Already Exists.</h1>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 d-flex justify-content-center align-items-center flex-column">
+                                <div class="row w-100">
+                                    <div class="col-4">
+                                        <h4 class="m-0">Number</h4>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="number" min="0" id="num" name="num" class="form-control"
+                                            placeholder="Enter Station Number" required>
+                                    </div>
+                                </div>
+                                <div class="row mt-2 w-100">
+                                    <div class="col-4">
+                                        <h4 class="m-0">Fusion IP</h4>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" id="fusion_ip" name="fusion_ip" class="form-control"
+                                            placeholder="Enter Fusion IP" required>
+                                    </div>
+                                </div>
+                                <div class="row mt-2 w-100">
+                                    <div class="col-4">
+                                        <h4 class="m-0">Fusion Port</h4>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" id="fusion_port" name="fusion_port" class="form-control"
+                                            placeholder="Enter Fusion Port" required>
+                                    </div>
+                                </div>
+                                <div class="row mt-4 w-100">
+                                    <div class="col-12 text-right">
+                                        <input type="hidden" value="{{csrf_token}}" id="csrfToken">
+                                        <button type="button" class="btn btn-dark px-4 me-4" onclick="ResetFusion()">Reset</button>
+                                        <button type="button" class="btn btn-success px-4" onclick="SubmitFusion()">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input type="file" class="my-pond mb-0" name="filepond" id="fileInput" />
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-12">
+                                        <div class="card-body bg-dark text-white" id="excelViewer"
+                                            style="max-height: 250px;min-height: 250px;border-radius: 10px;overflow: auto;">
+                                            <!-- preview of excel file -->
+                                            <div class="row" style="height: 215px;">
+                                                <div class="col-12 d-flex justify-content-center align-items-center">
+                                                    <h3 class="text-white">Excel File Preview</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" src="{% static 'js/xlsx.full.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/AdminFusionAdd.js' %}"></script>
+{% endblock %}

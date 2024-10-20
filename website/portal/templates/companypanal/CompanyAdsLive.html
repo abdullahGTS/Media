@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% load static %}
+{% block CompanyAdsLive %}
+<main>
+    <div class="container-fluid px-4">
+        <div class="row mt-4">
+            <div class="col-xl-4">
+                <div class="card mb-4">
+                    <div class="card-header bg-dark text-white">
+                        <div class="col-xl-12">
+                            <i class="fa-solid fa-gas-pump me-1"></i>
+                            Stations List
+                        </div>
+                    </div>
+                    <div class="card-body make-my-scrollable text-center" style="max-height: 450px;position: relative;">
+                        <input class="form-control mb-2" id="stationSearch" type="text" placeholder="Search..." style="position: sticky;top: -16px;z-index: 999;">
+                        <div class="list-group" id="stationResultContainer">
+                            {% for station in stations %}
+                            <button type="button" onclick="drawStationScreens('{{station.id}}', '{{station.screens}}')" id="station_{{station.id}}"
+                                class="list-group-item list-group-item-action tank-toggle-button bg-dark text-white">
+                                <div class="row" style="width: 85%;">
+                                    <div class="col-3 d-flex justify-content-center align-items-center">{{station.number}}</div>
+                                    <div class="col-9 d-flex justify-content-center align-items-center">{{station.name}}</div>
+                                </div>
+                                <span class="badge badge-light text-dark badge-pill" title="Screens">{{station.screens}}</span>
+                            </button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8">
+                <div class="card mb-4">
+                    <div class="card-header bg-dark text-white">
+                        <div class="col-xl-12">
+                            <i class="fa-solid fa-display me-1"></i>
+                            Station | Screens | Visualization
+                        </div>
+                    </div>
+                    <div class="card-body make-my-scrollable text-center" style="max-height: 450px;">
+                        <div class="row" id="screens_row">
+                            <!-- <div class="col-6">
+                                <div class="row">
+                                    <div class="col-6 m-auto make-my-scrollable text-white bg-dark" id="screen_status" style="max-height: 350px;min-height: 350px;border: 3px solid #000000;border-radius: 2px;">
+                                        <div class="row mt-3">
+                                            <div class="col-12 d-flex justify-content-center align-items-center">
+                                                <h6 class="m-0 text-white">SKQ1.211019.001</h6>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row mt-2">
+                                            <div class="col-5 d-flex justify-content-start align-items-center">
+                                                <h6 class="m-0 text-white">Status:</h6>
+                                            </div>
+                                            <div class="col-7 d-flex justify-content-center align-items-center">
+                                                <span id="online" class="bg-success me-1" style="
+                                                width: 30px;
+                                                height: 30px;
+                                                border-radius: 50%;"></span>
+                                                <span id="online" style="background-color: #00ff89;
+                                                width: 30px;
+                                                height: 30px;
+                                                border-radius: 50%;
+                                                box-shadow: 0px 0px 10px 2px #198754;"></span>
+                                                <span id="offline" class="bg-danger" style="
+                                                width: 30px;
+                                                height: 30px;
+                                                border-radius: 50%;"></span>
+                                                <span id="offline"style="background-color: #ff2e42;
+                                                width: 30px;
+                                                height: 30px;
+                                                border-radius: 50%;
+                                                box-shadow: 0px 0px 10px 2px #dc3545;"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-12 d-flex justify-content-start align-items-center">
+                                                <h6 class="m-0 text-white">Now:</h6>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-12 d-flex justify-content-center align-items-center">
+                                                <h6 class="m-0 text-white">July.mp4</h6>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-12 d-flex justify-content-start align-items-center">
+                                                <h6 class="m-0 text-white">Next:</h6>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-12 d-flex justify-content-center align-items-center">
+                                                <h6 class="m-0 text-white">June.mp4</h6>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-12 d-flex justify-content-start align-items-center">
+                                                <h6 class="m-0 text-white">Last Connection:</h6>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-12 d-flex justify-content-center align-items-center">
+                                                <h6 class="m-0 text-white">July 31, 2024, 5:17 a.m.</h6>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-12 d-flex justify-content-center align-items-center">
+                                                <button class="btn btn-light text-dark w-100">Timeline</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 m-auto text-white bg-dark" style="height: 350px;border: 3px solid #000000;border-radius: 2px;overflow: hidden;cursor: pointer;" onclick="$('#screen_status').toggleClass('d-none');">
+                                        <div class="row" style="height: 230px;overflow: hidden;">
+                                            <div class="col-12 bg-light d-flex justify-content-center align-items-center p-0">
+                                                <img src="{% static 'img/gts.png' %}" class="d-none" style="width: 100%;" alt="gts">
+                                                <video class="" controls muted style="width: 100%;height: 100%;">
+                                                    <source src="{% static 'video/gts2.mp4' %}" type="video/mp4">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-6 d-flex justify-content-start align-items-center">
+                                                <h5 class="m-0 text-white">Total</h5>
+                                            </div>
+                                            <div class="col-6 d-flex justify-content-center align-items-center">
+                                                <input type="text" class="form-control text-center p-0" style="border-radius: 2px;font-weight: bold;" value="00.00" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-1">
+                                            <div class="col-6 d-flex justify-content-start align-items-center">
+                                                <h5 class="m-0 text-white">Volume</h5>
+                                            </div>
+                                            <div class="col-6 d-flex justify-content-center align-items-center">
+                                                <input type="text" class="form-control text-center p-0" style="border-radius: 2px;font-weight: bold;" value="00.00" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-1">
+                                            <div class="col-6 d-flex justify-content-start align-items-center">
+                                                <h5 class="m-0 text-white">Price</h5>
+                                            </div>
+                                            <div class="col-6 d-flex justify-content-center align-items-center">
+                                                <input type="text" class="form-control text-center p-0" style="border-radius: 2px;font-weight: bold;" value="00.00" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="view_timeline_modal" tabindex="-1" role="dialog" aria-labelledby="viewTimelineModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-secondary text-white">
+                    <h5 class="modal-title">Quotation Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" src="{% static 'js/CompanyAdsLive.js' %}"></script>
+{% endblock %}
