@@ -128,20 +128,20 @@ def Fusion_delete_related_files(sender, instance, **kwargs):
         default_storage.delete(file_path)
 
 
-screen_status = [
+pos_status = [
     ('c', 'Created'),
     ('off', 'Offline'),
     ('on', 'Online')
 ]
 
 
-class Screen(models.Model):
+class Pos(models.Model):
     android_id = models.CharField(max_length=256)
     pump = models.ForeignKey(
-        Pump, on_delete=models.CASCADE, related_name='ScreenPump')
+        Pump, on_delete=models.CASCADE, related_name='PosPump')
     station = models.ForeignKey(
-        Station, on_delete=models.CASCADE, related_name='ScreenStation')
-    status = models.CharField(max_length=50, choices=screen_status)
+        Station, on_delete=models.CASCADE, related_name='PosStation')
+    status = models.CharField(max_length=50, choices=pos_status)
     last_connection = models.DateTimeField()
     timestamp = models.DateTimeField(auto_now_add=True)
 

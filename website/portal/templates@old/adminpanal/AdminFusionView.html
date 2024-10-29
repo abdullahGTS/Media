@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% load static %}
+{% block AdminFusionView %}
+<main>
+    <div class="container-fluid px-4">
+        <div class="row mt-4 mb-4">
+            <div class="col-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading text-left" style="background-color: #212529;padding: 10px 15px;border-radius: 5px;"
+                            role="tab" id="fusion_filters">
+                        <h4 class="panel-title m-0">
+                            <div class="row">
+                                <div class="col-9">
+                                    <a role="button" data-toggle="collapse"
+                                        style="text-decoration: none;color: #fff;" href="#collapse_fusion_filters"
+                                        aria-expanded="false" aria-controls="collapse_fusion_filters">
+                                        <i class="fa-solid fa-filter me-1"></i>
+                                        Fusion Filters
+                                    </a>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <button class="btn btn-success btn-sm" id="sbmtBTN" disabled>Submit</button>
+                                    <button class="btn btn-danger btn-sm" id="rstBTN">Reset ALL</button>
+                                </div>
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="collapse_fusion_filters" class="panel-collapse collapse in show" role="tabpanel"
+                        aria-labelledby="fusion_filters">
+                        <div class="panel-body">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-4 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-dark text-white">
+                                                    <div class="row">
+                                                        <div class="col-10 d-flex justify-content-start align-items-center">
+                                                            <i class="fa-solid fa-filter me-1"></i>
+                                                            Station Number
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                                            <button class="btn btn-danger btn-sm" id="StNumBTN"
+                                                                style="padding: 0px 5px;"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <select class="selectpicker form-control" id="station" data-live-search="true">
+                                                        <option value="" selected disabled>Choose Number...</option>
+                                                        {% for st_num in station_numbers %}
+                                                        <option value="{{st_num.station}}">{{st_num.station}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-dark text-white">
+                                                    <div class="row">
+                                                        <div class="col-10 d-flex justify-content-start align-items-center">
+                                                            <i class="fa-solid fa-filter me-1"></i>
+                                                            Fusion IP
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                                            <button class="btn btn-danger btn-sm" id="fusionIPBTN"
+                                                            style="padding: 0px 5px;"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <select class="selectpicker form-control" id="fusion_ip" data-live-search="true">
+                                                        <option value="" selected disabled>Choose Fusion IP...</option>
+                                                        {% for fip in fusion_ips %}
+                                                        <option value="{{fip.ip}}">{{fip.ip}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-dark text-white">
+                                                    <div class="row">
+                                                        <div class="col-10 d-flex justify-content-start align-items-center">
+                                                            <i class="fa-solid fa-filter me-1"></i>
+                                                            Fusion Port
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                                            <button class="btn btn-danger btn-sm" id="FusionPortBTN"
+                                                                style="padding: 0px 5px;"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <select class="selectpicker form-control" id="fusion_port" data-live-search="true">
+                                                        <option value="" selected disabled>Choose Fusion Port...</option>
+                                                        {% for fport in fusion_ports %}
+                                                        <option value="{{fport.port}}">{{fport.port}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-dark text-white">
+                                                    <div class="row">
+                                                        <div class="col-10 d-flex justify-content-start align-items-center">
+                                                            <i class="fa-solid fa-filter me-1"></i>
+                                                            Created Date
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                                            <button class="btn btn-danger btn-sm" id="timestampBTN"
+                                                                style="padding: 0px 5px;"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-5">
+                                                            <input class="form-control" type="datetime-local" id="ts_from">
+                                                        </div>
+                                                        <div class="col-2" style="display: flex;justify-content: center;align-items: center;">
+                                                            <label>To</label>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input class="form-control" type="datetime-local" id="ts_to">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row d-none" id="miniloader">
+            <div class="col-12 text-center">
+                <span class="loader">L &nbsp; ading</span>
+            </div>
+        </div>
+        <div class="card mb-4 mt-3 d-none" id="card-table">
+            <div class="card-header bg-dark text-white">
+                <i class="fas fa-table me-1"></i>
+                Fusions Table | View
+            </div>
+            <div class="card-body table-striped">
+                <div id="toolbar" class="select" style="display: flex;">
+                    <input type="text" class="form-control" style="margin-right:5px;" id="exportFileName"
+                        placeholder="Export File Name">
+                    <select class="form-control" style="margin-right:5px;">
+                        <option value="">Export Basic</option>
+                        <option value="all">Export All</option>
+                        <option value="selected">Export Selected</option>
+                    </select>
+                    <button class="btn" style="color: #fff;background-color: #6c757d" id="print_selected">Print
+                        Selected</button>
+                </div>
+                <table id="fusionTbl" data-toggle="table" data-pagination="true" data-search="true"
+                    data-show-columns="true" data-show-toggle="true" data-show-columns-search="true"
+                    data-show-pagination-switch="true" data-show-fullscreen="true" data-searchable="true"
+                    data-show-print="true" data-print-as-filtered-and-sorted-on-ui="true"
+                    data-mobile-responsive="true" data-key-events="true" data-show-search-clear-button="true"
+                    data-filter-control="true" data-show-export="true" data-click-to-select="true"
+                    data-toolbar="#toolbar" data-unique-id="RFQ_ID">
+                    <thead>
+                        <tr>
+                            <th data-field="state" data-checkbox="true" data-visible="false"></th>
+                            <th data-field="station" data-sortable="true" data-filter-control="input">Station Number</th>
+                            <th data-field="fusion_ip" data-sortable="true" data-filter-control="input">Fusion IP</th>
+                            <th data-field="fusion_port" data-sortable="true" data-filter-control="input">Fusion Port</th>
+                            <th data-field="timestamp" data-sortable="true" data-filter-control="input">Created Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" src="{% static 'js/AdminFusionView.js' %}"></script>
+{% endblock %}

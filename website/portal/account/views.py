@@ -51,9 +51,9 @@ def CreateOTPApi(request):
             # print('user first login => ', user.first_login)
             if user.first_login:
                 request.session['email'] = user.email
-                return JsonResponse(data={'status': '/change/password/first/login/'}, safe=False)
+                return JsonResponse(data={'status': 'first_login', 'path': '/change/password/first/login/'}, safe=False)
             elif user.is_locked:
-                return JsonResponse(data={'status': '/?error=ALOCK'}, safe=False)
+                return JsonResponse(data={'status': 'locked'}, safe=False)
             else:
                 password_checher = check_password(password, user.password)
                 # print('password_checher => ', password_checher)
@@ -80,19 +80,19 @@ def CreateOTPApi(request):
                     receiver = [user.email]
                     subject = f"OTP | {user.email}"
                     message = f"The OTP is {user_otp.key}."
-                    send_email(sender,receiver,subject,message)
+                    # send_email(sender,receiver,subject,message)
                     return JsonResponse(data={'status': 'valid'}, safe=False)
                 else:
                     user.attempts += 1
                     if user.attempts == 5:
                         user.is_locked = True
                         user.save()
-                        return JsonResponse(data={'status': '/?error=ALOCK'}, safe=False)
+                        return JsonResponse(data={'status': 'locked'}, safe=False)
                     user.save()
-                    return JsonResponse(data={'status': 'invalid'}, safe=False)
+                    return JsonResponse(data={'status': 'invalid_password'}, safe=False)
         except Exception as ex:
             print(ex)
-            return JsonResponse(data={'status': 'invalid'}, safe=False)
+            return JsonResponse(data={'status': 'invalid_email'}, safe=False)
     return JsonResponse(data={'status': 'No Get Response'}, safe=False)
 
 
@@ -122,24 +122,27 @@ def userLogin(request):
                         # print(user)
                         if user.role.id == 1: # admin
                             request.session['admin_token'] = userToken
-                            return HttpResponseRedirect('/adminpanal/')
+                            # return HttpResponseRedirect('/adminpanal/')
+                            return JsonResponse(data={'status': 'valid', 'type': '/adminpanal/'}, safe=False)
                         if user.role.id == 2: # company
                             request.session['company_token'] = userToken
-                            return HttpResponseRedirect('/company/')
+                            # return HttpResponseRedirect('/companypanal/')
+                            return JsonResponse(data={'status': 'valid', 'type': '/companypanal/'}, safe=False)
                     else:
-                        return HttpResponseRedirect('/?error=IOTP')
+                        return JsonResponse(data={'status': 'invalid_otp'}, safe=False)
                 else:
-                    return HttpResponseRedirect('/?error=NOTP')
+                    return JsonResponse(data={'status': 'otp_not_found'}, safe=False)
             else:
                 user.attempts += 1
                 if user.attempts == 5:
                     user.is_locked = True
                     user.save()
-                    return HttpResponseRedirect('/?error=ALOCK')
+                    return JsonResponse(data={'status': 'locked'}, safe=False)
                 user.save()
-                return HttpResponseRedirect('/?error=IPASS')
+                return JsonResponse(data={'status': 'invalid_password'}, safe=False)
         except Exception as ex:
             print(ex)
+            return JsonResponse(data={'status': 'invalid_email'}, safe=False)
     return render(request, 'login.html', {})
 
 
@@ -168,9 +171,11 @@ def UserChangePasswordFirstLogin(request):
                 user.first_login = False
                 user.save()
                 del request.session['email']
-                return HttpResponseRedirect('/')
+                # return HttpResponseRedirect('/')
+                return JsonResponse(data={'status': 'valid', 'path': '/'}, safe=False)
             except Exception as ex:
                 print(ex)
+                return JsonResponse(data={'status': 'invalid'}, safe=False)
         return render(request, 'changePasswordFirstLogin.html', {'email': request.session['email']})
     else:
         return HttpResponseRedirect('/logout/')
@@ -186,9 +191,9 @@ def UserForgetPassword(request):
         if user_otp.exists():
             user_obj.password = make_password(password)
             user_obj.save()
-            return HttpResponseRedirect('/')
+            return JsonResponse(data={'status': 'valid'}, safe=False)
         else:
-            print('OTP Expired')
+            return JsonResponse(data={'status': 'invalid'}, safe=False)
     return render(request, 'forgetPassword.html', {})
 
 
@@ -206,7 +211,7 @@ def ForgetPasswordGenerateOTPApi(request):
             receiver = [user.email]
             subject = f"OTP | {user.email}"
             message = f"The OTP is {user_otp.key}."
-            send_email(sender,receiver,subject,message)
+            # send_email(sender,receiver,subject,message)
             return JsonResponse(data={'status': 'valid'}, safe=False)
         except Exception as ex:
             print(ex)

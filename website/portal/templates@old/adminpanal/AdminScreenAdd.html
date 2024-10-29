@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static %}
+{% block AdminScreenAdd %}
+<main>
+    <div class="container-fluid px-4">
+        <div class="row mt-2">
+            <div class="col-xl-12">
+                <div class="card mb-4">
+                    <div class="card-header bg-dark text-white">
+                        <div class="col-xl-12">
+                            <i class="fa-solid fa-filter me-1"></i>
+                            Screen | Add
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-4 d-none" id="success_msg">
+                            <div class="col-12 d-flex justify-content-center align-items-center">
+                                <h3 class="m-0 text-success">Screen Added Successfully.</h3>
+                            </div>
+                        </div>
+                        <div class="row mb-4 d-none" id="error_msg">
+                            <div class="col-12 d-flex justify-content-center align-items-center">
+                                <h3 class="m-0 text-danger">Screen Already Exists.</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-8 d-flex justify-content-center align-items-center flex-column">
+                                <div class="row w-100">
+                                    <div class="col-4">
+                                        <h5 class="m-0">Station</h5>
+                                    </div>
+                                    <div class="col-8">
+                                        <select class="selectpicker form-control" name="station" id="station" data-live-search="true" required>
+                                            <option value="" selected disabled>Choose Station...</option>
+                                            {% for station in stations %}
+                                            <option value="{{station.station_id}}">{{station.station__number}} - {{station.station__name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mt-2 w-100">
+                                    <div class="col-4">
+                                        <h5 class="m-0">Pump</h5>
+                                    </div>
+                                    <div class="col-8">
+                                        <select class="selectpicker form-control" name="pump" id="pump" data-live-search="true" disabled required>
+                                            <option value="" selected disabled>Choose Pump...</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mt-2 w-100">
+                                    <div class="col-4">
+                                        <h5 class="m-0">Android ID</h5>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" id="android_id" name="android_id" class="form-control"
+                                            placeholder="Enter Android ID" disabled>
+                                    </div>
+                                </div>
+                                <div class="row mt-4 w-100">
+                                    <div class="col-12 text-right">
+                                        <button type="button" class="btn btn-dark px-4 me-4" onclick="ResetScreen()">Reset</button>
+                                        <button type="submit" class="btn btn-success px-4" id="submit_btn" onclick="SubmitScreen()" disabled>Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="row">
+                                    <div class="col-4 d-flex justify-content-center align-items-center">
+                                        <h5 class="m-0">Nozzles</h5>
+                                    </div>
+                                    <div class="col-8">
+                                        <select class="selectpicker form-control" name="nozzles" id="nozzles" data-live-search="true" disabled>
+                                            <option value="" selected disabled>Choose Nozzle</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-10 m-auto d-flex justify-content-center align-items-center text-white bg-dark" id="screen_preview" style="height: 350px;border: 3px solid #000000;border-radius: 2px;">
+                                        <h3 class="m-0" id="screen_msg">Screen Preview</h3>
+                                    </div>
+                                    <div class="col-10 d-none m-auto text-white bg-dark" id="screen_details" style="height: 350px;border: 3px solid #000000;border-radius: 2px;overflow: hidden;">
+                                        <div class="row" id="screen_video" style="height: 230px;overflow: hidden;">
+                                            <div class="col-12 bg-light d-flex justify-content-center align-items-center p-0">
+                                                <img src="{% static 'img/gts.png' %}" class="d-none" style="width: 100%;" alt="gts">
+                                                <video class="" controls autoplay muted loop style="width: 100%;height: 100%;">
+                                                    <source src="{% static 'video/gts2.mp4' %}" type="video/mp4">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2 mb-4" id="nozzle_animation" style="overflow: hidden;">
+                                            <div class="col-5 d-flex justify-content-center align-items-center">
+                                                <img src="{% static 'img/nozzle_right.png' %}" class="slide-and-rotate" style="width: 100%;" alt="gts">
+                                            </div>
+                                            <div class="col-7 d-flex justify-content-center align-items-center">
+                                                <h3 class="m-0 text-success slide-down text-center" id="product_name" style="font-weight: bold;"></h3>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3" id="screen_total">
+                                            <div class="col-1"></div>
+                                            <div class="col-5 d-flex justify-content-start align-items-center">
+                                                <h5 class="m-0 text-white">Total</h5>
+                                            </div>
+                                            <div class="col-5 d-flex justify-content-center align-items-center">
+                                                <input type="text" id="total" class="form-control text-center p-0" style="border-radius: 2px;font-weight: bold;" value="00.00" readonly>
+                                            </div>
+                                            <div class="col-1"></div>
+                                        </div>
+                                        <div class="row mt-1" id="screen_volume">
+                                            <div class="col-1"></div>
+                                            <div class="col-5 d-flex justify-content-start align-items-center">
+                                                <h5 class="m-0 text-white">Volume</h5>
+                                            </div>
+                                            <div class="col-5 d-flex justify-content-center align-items-center">
+                                                <input type="text" id="volume" class="form-control text-center p-0" style="border-radius: 2px;font-weight: bold;" value="00.00" readonly>
+                                            </div>
+                                            <div class="col-1"></div>
+                                        </div>
+                                        <div class="row mt-1" id="screen_price">
+                                            <div class="col-1"></div>
+                                            <div class="col-5 d-flex justify-content-start align-items-center">
+                                                <h5 class="m-0 text-white">Price</h5>
+                                            </div>
+                                            <div class="col-5 d-flex justify-content-center align-items-center">
+                                                <input type="text" id="price" class="form-control text-center p-0" style="border-radius: 2px;font-weight: bold;" value="00.00" readonly>
+                                            </div>
+                                            <div class="col-1"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" src="{% static 'js/AdminScreenAdd.js' %}"></script>
+{% endblock %}

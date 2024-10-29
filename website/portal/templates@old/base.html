@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    {% load static %}
+
+    <head>
+        {% include "head.html" %}
+    </head>
+    <body class="sb-nav-fixed">
+    {% include "loader.html" %}
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-lg order-1 order-lg-0 me-4 me-lg-0" aria-label="sidebar-menu" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            <!-- Navbar Brand-->
+            {% if user.role.id == 1 %}
+            <a class="navbar-brand ps-3" href="/adminpanal/">
+                <img src="{% static 'img/gts-logo.png' %}" width="70%" height="100%" alt="GTS Logo" style="width:70%;">
+            </a>
+            {% elif user.role.id == 2 %}
+            <a class="navbar-brand ps-3" href="/companypanal/">
+                <img src="{% static 'img/gts-logo.png' %}" width="70%" height="100%" alt="GTS Logo" style="width:70%;">
+            </a>
+            {% else %}
+            <a class="navbar-brand ps-3" href="#">
+                <img src="{% static 'img/gts-logo.png' %}" width="70%" height="100%" alt="GTS Logo" style="width:70%;">
+            </a>
+            {% endif %}
+            <!-- <span class="navbar-text">
+                <label style="margin: 0px;"><i class="fas fa-user"></i> AM.{{user.first_name|capfirst}}</label>
+                <a class="btn btn-danger btn-sm order-1 order-lg-0 me-4 me-lg-0" href="{% url 'UserLogout' %}"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+            </span> -->
+            <div class="navbar-text" style="position: absolute;right: 20px; color: white;">
+                <label class="user-mobile" style="margin: 0px 20px 0px 0px;"><i class="fas fa-user"></i> {{user.first_name|capfirst}}</label>
+                <a class="btn btn-danger btn-sm order-1 order-lg-0 me-4 me-lg-0 user-logout-mobile" href="{% url 'UserLogout' %}"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+            </div>
+        </nav>
+        <div id="layoutSidenav">
+            {% include "sidebar.html" %}
+            {% include "scripts.html" %}
+            <div id="layoutSidenav_content">
+                <!-- code goes here -->
+                {% if user.role.id == 1 %}
+                    {% block AdminDashboard %}
+                    {% endblock %}
+                    {% block AdminFusionAdd %}
+                    {% endblock %}
+                    {% block AdminFusionView %}
+                    {% endblock %}
+                    {% block AdminProduct %}
+                    {% endblock %}
+                    {% block AdminStationAdd %}
+                    {% endblock %}
+                    {% block AdminStationView %}
+                    {% endblock %}
+                    {% block AdminPumpAdd %}
+                    {% endblock %}
+                    {% block AdminPumpView %}
+                    {% endblock %}
+                    {% block AdminNozzleAdd %}
+                    {% endblock %}
+                    {% block AdminNozzleView %}
+                    {% endblock %}
+                    {% block AdminScreenAdd %}
+                    {% endblock %}
+                    {% block AdminScreenView %}
+                    {% endblock %}
+                {% elif user.role.id == 2 %}
+                    {% block CompanyDashboard %}
+                    {% endblock %}
+                    {% block CompanyAdsLive %}
+                    {% endblock %}
+                    {% block CompanyAdsUpload %}
+                    {% endblock %}
+                    {% block CompanyAdsEdit %}
+                    {% endblock %}
+                    {% block CompanyAdsDelete %}
+                    {% endblock %}
+                {% endif %}
+                {% block changePassword %}
+                {% endblock %}
+                <footer class="py-2 bg-dark mt-auto">
+                    {% include "footer.html" %}
+                </footer>
+            </div>
+        </div>
+        {% block userLogin %}
+        {% endblock %}
+        {% block changePasswordFirstLogin %}
+        {% endblock %}
+        {% block forgetPassword %}
+        {% endblock %}
+    </body>
+</html>
