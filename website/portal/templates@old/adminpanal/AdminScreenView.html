@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+{% load static %}
+{% block AdminScreenView %}
+<main>
+    <div class="container-fluid px-4">
+        <div class="row mt-4 mb-4">
+            <div class="col-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading text-left" style="background-color: #212529;padding: 10px 15px;border-radius: 5px;"
+                            role="tab" id="screen_filters">
+                        <h4 class="panel-title m-0">
+                            <div class="row">
+                                <div class="col-9">
+                                    <a role="button" data-toggle="collapse"
+                                        style="text-decoration: none;color: #fff;" href="#collapse_screen_filters"
+                                        aria-expanded="false" aria-controls="collapse_screen_filters">
+                                        <i class="fa-solid fa-filter me-1"></i>
+                                        Screens Filters
+                                    </a>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <button class="btn btn-success btn-sm" id="sbmtBTN" disabled>Submit</button>
+                                    <button class="btn btn-danger btn-sm" id="rstBTN">Reset ALL</button>
+                                </div>
+                            </div>
+                        </h4>
+                    </div>
+                    <div id="collapse_screen_filters" class="panel-collapse collapse in show" role="tabpanel"
+                        aria-labelledby="screen_filters">
+                        <div class="panel-body">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-3 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-dark text-white">
+                                                    <div class="row">
+                                                        <div class="col-10 d-flex justify-content-start align-items-center">
+                                                            <i class="fa-solid fa-filter me-1"></i>
+                                                            Android ID
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                                            <button class="btn btn-danger btn-sm" id="androidIDBTN"
+                                                                style="padding: 0px 5px;"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <select class="selectpicker form-control" id="android_id" data-live-search="true">
+                                                        <option value="" selected disabled>Choose Andorid ID...</option>
+                                                        {% for and_id in android_ids %}
+                                                        <option value="{{and_id.id}}">{{and_id.android_id}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-dark text-white">
+                                                    <div class="row">
+                                                        <div class="col-10 d-flex justify-content-start align-items-center">
+                                                            <i class="fa-solid fa-filter me-1"></i>
+                                                            Pump Number
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                                            <button class="btn btn-danger btn-sm" id="PmNumBTN"
+                                                                style="padding: 0px 5px;"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <select class="selectpicker form-control" id="pump" data-live-search="true">
+                                                        <option value="" selected disabled>Choose Number...</option>
+                                                        {% for pm_num in pump_numbers %}
+                                                        <option value="{{pm_num.pump_id}}">{{pm_num.pump__number}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-dark text-white">
+                                                    <div class="row">
+                                                        <div class="col-10 d-flex justify-content-start align-items-center">
+                                                            <i class="fa-solid fa-filter me-1"></i>
+                                                            Station
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                                            <button class="btn btn-danger btn-sm" id="StNameBTN"
+                                                                style="padding: 0px 5px;"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <select class="selectpicker form-control" id="station" data-live-search="true">
+                                                        <option value="" selected disabled>Choose Name...</option>
+                                                        {% for st_name in station_names %}
+                                                        <option value="{{st_name.station_id}}">{{st_name.station__name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-dark text-white">
+                                                    <div class="row">
+                                                        <div class="col-10 d-flex justify-content-start align-items-center">
+                                                            <i class="fa-solid fa-filter me-1"></i>
+                                                            Status
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                                            <button class="btn btn-danger btn-sm" id="statusBTN"
+                                                                style="padding: 0px 5px;"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <select class="selectpicker form-control" id="status" data-live-search="true">
+                                                        <option value="" selected disabled>Choose Status...</option>
+                                                        {% for status in status_list %}
+                                                        <option value="{{status.0}}">{{status.1}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-dark text-white">
+                                                    <div class="row">
+                                                        <div class="col-10 d-flex justify-content-start align-items-center">
+                                                            <i class="fa-solid fa-filter me-1"></i>
+                                                            Last Connection
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                                            <button class="btn btn-danger btn-sm" id="lastConnBTN"
+                                                                style="padding: 0px 5px;"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-5">
+                                                            <input class="form-control" type="datetime-local" id="lc_from">
+                                                        </div>
+                                                        <div class="col-2" style="display: flex;justify-content: center;align-items: center;">
+                                                            <label>To</label>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input class="form-control" type="datetime-local" id="lc_to">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-dark text-white">
+                                                    <div class="row">
+                                                        <div class="col-10 d-flex justify-content-start align-items-center">
+                                                            <i class="fa-solid fa-filter me-1"></i>
+                                                            Created Date
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-end align-items-center">
+                                                            <button class="btn btn-danger btn-sm" id="timestampBTN"
+                                                                style="padding: 0px 5px;"><i class="fa-solid fa-xmark"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-5">
+                                                            <input class="form-control" type="datetime-local" id="ts_from">
+                                                        </div>
+                                                        <div class="col-2" style="display: flex;justify-content: center;align-items: center;">
+                                                            <label>To</label>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <input class="form-control" type="datetime-local" id="ts_to">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row d-none" id="miniloader">
+            <div class="col-12 text-center">
+                <span class="loader">L &nbsp; ading</span>
+            </div>
+        </div>
+        <div class="card mb-4 mt-3 d-none" id="card-table">
+            <div class="card-header bg-dark text-white">
+                <i class="fas fa-table me-1"></i>
+                Screens Table | View
+            </div>
+            <div class="card-body table-striped">
+                <div id="toolbar" class="select" style="display: flex;">
+                    <input type="text" class="form-control" style="margin-right:5px;" id="exportFileName"
+                        placeholder="Export File Name">
+                    <select class="form-control" style="margin-right:5px;">
+                        <option value="">Export Basic</option>
+                        <option value="all">Export All</option>
+                        <option value="selected">Export Selected</option>
+                    </select>
+                    <button class="btn" style="color: #fff;background-color: #6c757d" id="print_selected">Print
+                        Selected</button>
+                </div>
+                <table id="screensTbl" data-toggle="table" data-pagination="true" data-search="true"
+                    data-show-columns="true" data-show-toggle="true" data-show-columns-search="true"
+                    data-show-pagination-switch="true" data-show-fullscreen="true" data-searchable="true"
+                    data-show-print="true" data-print-as-filtered-and-sorted-on-ui="true"
+                    data-mobile-responsive="true" data-key-events="true" data-show-search-clear-button="true"
+                    data-filter-control="true" data-show-export="true" data-click-to-select="true"
+                    data-toolbar="#toolbar" data-unique-id="RFQ_ID">
+                    <thead>
+                        <tr>
+                            <th data-field="state" data-checkbox="true" data-visible="false"></th>
+                            <th data-field="android_id" data-sortable="true" data-filter-control="input">Android ID</th>
+                            <th data-field="pump" data-sortable="true" data-filter-control="input">Pump Number</th>
+                            <th data-field="station" data-sortable="true" data-filter-control="input">Station Name</th>
+                            <th data-field="status" data-sortable="true" data-filter-control="input">Status</th>
+                            <th data-field="last_connection" data-sortable="true" data-filter-control="input">Last Connection</th>
+                            <th data-field="timestamp" data-sortable="true" data-filter-control="input">Created Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" src="{% static 'js/AdminScreenView.js' %}"></script>
+{% endblock %}

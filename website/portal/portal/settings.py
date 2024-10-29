@@ -60,7 +60,6 @@ INSTALLED_APPS = [
     'fontawesomefree',
     'account',
     'adminpanal',
-    'companypanal',
 ]
 
 MIDDLEWARE = [
@@ -120,7 +119,7 @@ WSGI_APPLICATION = 'portal.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',
-        'NAME': 'Media',
+        'NAME': 'Payment',
         'USER': 'sa',
         'PASSWORD': 'P@$$w0rd',
         'HOST': 'ABDULLAH-KAMAL',

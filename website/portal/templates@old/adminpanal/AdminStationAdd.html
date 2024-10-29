@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% load static %}
+{% block AdminStationAdd %}
+<main>
+    <div class="container-fluid px-4">
+        <div class="row mt-4 mb-4">
+            <div class="col-xl-12">
+                <div class="card mb-4">
+                    <div class="card-header bg-dark text-white">
+                        <div class="col-xl-12">
+                            <i class="fa-solid fa-file-import me-1"></i>
+                            Station | Form | Add
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-4 d-none" id="success_msg">
+                            <div class="col-12 d-flex justify-content-center align-items-center">
+                                <h1 class="m-0 text-success">Station Added Successfully.</h1>
+                            </div>
+                        </div>
+                        <div class="row mb-4 d-none" id="error_msg">
+                            <div class="col-12 d-flex justify-content-center align-items-center">
+                                <h1 class="m-0 text-danger">Station Number Already Exists.</h1>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <h4 class="m-0">Number</h4>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="number" min="0" id="num" name="num" class="form-control"
+                                            placeholder="Enter Station Number" required>
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-dark w-100" id="load_btn" onclick="getStationFusion()">Load</button>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-4">
+                                        <h4 class="m-0">Name</h4>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" id="name" name="name" class="form-control"
+                                            placeholder="Enter Station Name" required>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-4">
+                                        <h4 class="m-0">Fusion IP</h4>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" id="fusion_ip" name="fusion_ip" class="form-control"
+                                            placeholder="Enter Fusion IP" required>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-4">
+                                        <h4 class="m-0">Fusion Port</h4>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" id="fusion_port" name="fusion_port" class="form-control"
+                                            placeholder="Enter Fusion Port" required>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-4">
+                                        <h4 class="m-0">Longitude</h4>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" id="long" name="long" class="form-control"
+                                            placeholder="Enter Longitude" required>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-4">
+                                        <h4 class="m-0">Latitude</h4>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" id="lat" name="lat" class="form-control"
+                                            placeholder="Enter Latitude" required>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-4">
+                                        <h4 class="m-0">Central Area</h4>
+                                    </div>
+                                    <div class="col-8">
+                                        <select class="form-control" name="central_area" id="central_area" required>
+                                            <option value="" selected disabled>Choose Central Area</option>
+                                            {% for cenArea in central_areas %}
+                                            <option value="{{cenArea.id}}">{{cenArea.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-4">
+                                        <h4 class="m-0">Governorate</h4>
+                                    </div>
+                                    <div class="col-8">
+                                        <select class="form-control" name="governorate" id="governorate" required>
+                                            <option value="" selected disabled>Choose Governorate</option>
+                                            {% for gov in governorates %}
+                                            <option value="{{gov.id}}">{{gov.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-12 text-right">
+                                        <input type="hidden" value="{{csrf_token}}" id="csrfToken">
+                                        <button type="button" class="btn btn-dark px-4 me-4" onclick="ResetStation()">Reset</button>
+                                        <button type="button" class="btn btn-success px-4" onclick="SubmitStation()">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input type="file" class="my-pond mb-0" name="filepond" id="fileInput" />
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-12">
+                                        <div class="card-body bg-dark make-my-scrollable" id="xmlViewer"
+                                            style="max-height: 335px;min-height: 335px;border-radius: 10px;">
+                                            <!-- preview of xml file -->
+                                            <div class="row" style="height: 300px;">
+                                                <div class="col-12 d-flex justify-content-center align-items-center">
+                                                    <h3 class="text-white">XML File Preview</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" src="{% static 'js/AdminStationAdd.js' %}"></script>
+{% endblock %}

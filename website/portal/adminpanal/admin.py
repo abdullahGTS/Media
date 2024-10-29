@@ -103,8 +103,8 @@ class FusionFileHandlerAdmin(admin.ModelAdmin):
     ]
 
 
-@admin.register(Screen)
-class ScreenAdmin(admin.ModelAdmin):
+@admin.register(Pos)
+class PosAdmin(admin.ModelAdmin):
     list_display = [
         'id',
         'android_id',
@@ -116,11 +116,11 @@ class ScreenAdmin(admin.ModelAdmin):
     ]
 
     def get_full_status(self, obj):
-        for tup in screen_status:
+        for tup in pos_status:
             if obj.status == tup[0]:
                 return tup[1]
     get_full_status.short_description = 'Status'
-        
+
 
 # @admin.register(AdsFile)
 # class AdsFileAdmin(admin.ModelAdmin):
